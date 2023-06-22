@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="labelArray">
+        <item>校内</item>
+        <item>校外</item>
+    </string-array>
+
+
+    <string-array name="frequencyArray">
+        <item>没去过</item>
+        <item>偶尔去</item>
+        <item>经常去</item>
+    </string-array>
+
+</resources>
