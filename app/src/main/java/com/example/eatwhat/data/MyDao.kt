@@ -2,7 +2,7 @@ package com.example.eatwhat.data
 
 import androidx.room.*
 
-//TODO:多表DAO
+
 //使用协程
 @Dao
 interface MyDao {
@@ -19,7 +19,7 @@ interface MyDao {
     suspend fun update(vararg rest:Restaurant)
 
     @Query("select * from Restaurants")
-    suspend fun getAllRests():List<Restaurant>
+    suspend fun getAllRests(): List<Restaurant>
 
 
     // Query注解中是SQL语句

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.eatwhat.data.DataQueryCallback
 import com.example.eatwhat.data.DataUtil
 import com.example.eatwhat.data.Restaurant
+import kotlinx.android.synthetic.main.fragment_first.*
 import java.lang.Exception
 
 /**
@@ -32,19 +33,18 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            // TODO： 进行选择
+        button_first.setOnClickListener {
             // 获取餐厅列表
             DataUtil.getAllRests(object :DataQueryCallback{
                 override fun success(rests: List<Restaurant>) {
                     for (rest in rests){
-                        Log.i(tag,rest.toString())
+                        Log.i("FirstFragment",rest.toString())
                     }
                     restaurantList = rests
                 }
 
                 override fun error(exception: Exception) {
-                    Log.e(tag,exception.toString())
+                    Log.e("FirstFragment",exception.toString())
                     // Toast.makeText(context,"获取数据失败",Toast.LENGTH_SHORT).show()
                 }
 
@@ -59,7 +59,7 @@ class FirstFragment : Fragment() {
             }
         }
 
-        view.findViewById<Button>(R.id.button_add_restaurant).setOnClickListener{
+        button_add_restaurant.setOnClickListener{
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }

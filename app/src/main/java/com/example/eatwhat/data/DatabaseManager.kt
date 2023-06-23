@@ -15,6 +15,7 @@ object DatabaseManager {
         Room.databaseBuilder(application.applicationContext,AppDatabase::class.java, DB_NAME)
             .addCallback(CreateCallBack)
             .addMigrations(*MIGRATIONS)
+            .createFromAsset("database/APPData.db")
             .build()
     }
 

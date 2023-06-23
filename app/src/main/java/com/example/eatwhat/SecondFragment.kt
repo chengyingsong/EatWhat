@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.eatwhat.data.DataUtil
 import com.example.eatwhat.data.Restaurant
 import com.example.eatwhat.data.DataSaveCallback
+import kotlinx.android.synthetic.main.fragment_second.*
 import java.lang.Exception
 
 class SecondFragment : Fragment() {
@@ -31,20 +32,18 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spRestFrequency:Spinner = view.findViewById<Spinner>(R.id.Spinner_restaurant_frequency)
-        adaptSpinner(spRestFrequency,true)
-        val spRestLabel:Spinner = view.findViewById<Spinner>(R.id.Spinner_restaurant_label)
-        adaptSpinner(spRestLabel,false)
+        adaptSpinner(Spinner_restaurant_frequency,true)
+        adaptSpinner(Spinner_restaurant_label,false)
 
         val restNameTextView = view.findViewById<TextView>(R.id.add_restaurant_name)
         val restScoreTextView = view.findViewById<TextView>(R.id.add_restaurant_score)
 
 
-        view.findViewById<Button>(R.id.button_set).setOnClickListener {
+        button_set.setOnClickListener {
             val restName:String = restNameTextView.text.toString()
             val restScoreString:String = restScoreTextView.text.toString()
-            var restScore:Float = 0.0F
-            var add2Database:Boolean = true
+            var restScore = 0.0F
+            var add2Database = true
             try{
                 restScore = restScoreString.toFloat()
             }catch (e:NumberFormatException){
@@ -64,13 +63,13 @@ class SecondFragment : Fragment() {
                             // 清空restEntity,恢复默认值
                             restEntity.name = ""
                             restEntity.score = -1.0F
-                            restEntity.frequency = spRestFrequency.adapter.getItem(0).toString()
-                            restEntity.label = spRestLabel.adapter.getItem(0).toString()
-                            // 清空输入框,恢复默认值 TODO: 不能在子线程直接操作UI
-                            restNameTextView.text = null
-                            restScoreTextView.text = null
-                            spRestFrequency.setSelection(0)
-                            spRestLabel.setSelection(0)
+                            restEntity.frequency = Spinner_restaurant_frequency.adapter.getItem(0).toString()
+                            restEntity.label = Spinner_restaurant_label.adapter.getItem(0).toString()
+                            // 清空输入框,恢复默认值 TODO: 不能在子线程直接操作UI,消息机制
+//                            restNameTextView.text = null
+//                            restScoreTextView.text = null
+//                            spRestFrequency.setSelection(0)
+//                            spRestLabel.setSelection(0)
                         }
 
                         override fun error(e: Exception) {

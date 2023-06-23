@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 
-// TODO: java.lang.RuntimeException: cannot find implementation for com.example.eatwhat.Data.AppDatabase. AppDatabase_Impl does not exist_
+// TODO: 预填充数据库
 @Database(entities = [Restaurant::class,EatingLog::class],version = 1,exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     val myDao:MyDao by lazy { createLogDao() }
