@@ -3,6 +3,7 @@ package com.example.eatwhat
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,6 +21,10 @@ import java.lang.Exception
 class SecondFragment : Fragment() {
 
     var restEntity:Restaurant = Restaurant()
+    companion object{
+        const val ADD_SUCCESS = 1001
+        const val ADD_ERROR   = 1002
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +40,10 @@ class SecondFragment : Fragment() {
         adaptSpinner(Spinner_restaurant_frequency,true)
         adaptSpinner(Spinner_restaurant_label,false)
 
-        val restNameTextView = view.findViewById<TextView>(R.id.add_restaurant_name)
-        val restScoreTextView = view.findViewById<TextView>(R.id.add_restaurant_score)
-
 
         button_set.setOnClickListener {
-            val restName:String = restNameTextView.text.toString()
-            val restScoreString:String = restScoreTextView.text.toString()
+            val restName:String = EditText_add_restaurant_name.text.toString()
+            val restScoreString:String = EditText_add_restaurant_score.text.toString()
             var restScore = 0.0F
             var add2Database = true
             try{
@@ -58,23 +60,17 @@ class SecondFragment : Fragment() {
                 if(checkEmpty()){
                     DataUtil.saveRest(restEntity,object: DataSaveCallback {
                         override fun success() {
-                            // Toast.makeText(context,"添加成功！",Toast.LENGTH_SHORT).show()
                             Log.i("Database", "添加成功：" + restEntity.name)
-                            // 清空restEntity,恢复默认值
-                            restEntity.name = ""
-                            restEntity.score = -1.0F
-                            restEntity.frequency = Spinner_restaurant_frequency.adapter.getItem(0).toString()
-                            restEntity.label = Spinner_restaurant_label.adapter.getItem(0).toString()
-                            // 清空输入框,恢复默认值 TODO: 不能在子线程直接操作UI,消息机制
-//                            restNameTextView.text = null
-//                            restScoreTextView.text = null
-//                            spRestFrequency.setSelection(0)
-//                            spRestLabel.setSelection(0)
+                            val msg = Message()
+                            msg.what = ADD_SUCCESS
+                            mHandler.sendMessage(msg)
                         }
 
                         override fun error(e: Exception) {
                             Log.e("Database",e.toString()+"_添加错误")
-                            // Toast.makeText(context,"出现错误",Toast.LENGTH_SHORT).show()
+                            val msg = Message()
+                            msg.what = ADD_ERROR
+                            mHandler.sendMessage(msg)
                         }
                     })
                 }
@@ -85,6 +81,30 @@ class SecondFragment : Fragment() {
 
         view.findViewById<Button>(R.id.button_second).setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        }
+    }
+
+    private val mHandler = object :Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when (msg.what){
+                ADD_SUCCESS -> {
+                    Toast.makeText(context, "添加成功！", Toast.LENGTH_SHORT).show()
+                    // 清空restEntity,恢复默认值
+                    restEntity.name = ""
+                    restEntity.score = -1.0F
+                    restEntity.frequency = Spinner_restaurant_frequency.adapter.getItem(0).toString()
+                    restEntity.label = Spinner_restaurant_label.adapter.getItem(0).toString()
+
+                    //清空输入框,恢复默认值
+                    EditText_add_restaurant_name.text = null
+                    EditText_add_restaurant_score.text = null
+                    Spinner_restaurant_frequency.setSelection(0)
+                    Spinner_restaurant_label.setSelection(0)
+                }
+                ADD_ERROR -> { Toast.makeText(context,"出现错误",Toast.LENGTH_SHORT).show()}
+                else -> {Log.e("Database","未识别信号${msg.what}")}
+            }
         }
     }
 

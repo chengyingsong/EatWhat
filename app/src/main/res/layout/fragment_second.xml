@@ -23,7 +23,7 @@
 
 
     <EditText
-            android:id="@+id/add_restaurant_name"
+            android:id="@+id/EditText_add_restaurant_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:selectAllOnFocus="true"
@@ -40,7 +40,7 @@
 
 
     <EditText
-            android:id="@+id/add_restaurant_score"
+            android:id="@+id/EditText_add_restaurant_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:selectAllOnFocus="true"
