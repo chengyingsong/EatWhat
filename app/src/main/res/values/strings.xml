@@ -3,7 +3,6 @@
     <string name="action_settings">设置</string>
     <!-- Strings used for fragments for navigation -->
     <string name="do_it">选择</string>
-    <string name="add_restaurant">添加餐厅</string>
     <string name="previous">返回</string>
 
     <string name="first_fragment_label">first_fragment_label</string>
@@ -15,4 +14,7 @@
     <string name="restaurant_score">餐厅分数：(请输入0-5的浮点数)</string>
     <string name="restaurant_frequency">就餐频率：</string>
     <string name="Add">添加</string>
+
+    <string name = "database_setting"> 数据库设置 </string>
+    <string name="add_restaurant">添加餐厅</string>
 </resources>
