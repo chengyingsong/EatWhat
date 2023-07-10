@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DatabaseActivity"> </activity>
+        <activity android:name=".AddDataActivity"> </activity>
     </application>
 
 </manifest>

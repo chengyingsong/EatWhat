@@ -13,7 +13,11 @@
     <string name="restaurant_label">餐厅类别：</string>
     <string name="restaurant_score">餐厅分数：(请输入0-5的浮点数)</string>
     <string name="restaurant_frequency">就餐频率：</string>
-    <string name="Add">添加</string>
+
+    <!-- Strings used for Setting Button-->
+    <string name="Add">添加数据</string>
+    <string name="Remove">删除</string>
+    <string name="Update">更新</string>
 
     <string name = "database_setting"> 数据库设置 </string>
     <string name="add_restaurant">添加餐厅</string>

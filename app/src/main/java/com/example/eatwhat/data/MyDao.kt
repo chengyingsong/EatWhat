@@ -13,13 +13,13 @@ interface MyDao {
     suspend fun saveLog(vararg logs:EatingLog)
 
     @Delete
-    suspend fun delete(vararg rest:Restaurant)
+    suspend fun delete(vararg rest:Restaurant) : Integer
 
     @Update
     suspend fun update(vararg rest:Restaurant)
 
     @Query("select * from Restaurants")
-    suspend fun getAllRests(): List<Restaurant>
+    suspend fun getAllRests(): MutableList<Restaurant>
 
 
     // Query注解中是SQL语句
@@ -30,7 +30,7 @@ interface MyDao {
     suspend fun getLastLogTime(): Long
 
     @Query("select * from EatingLog where time>=:startTime and time <=:endTime")
-    suspend fun getLogByFilter(startTime: Long, endTime: Long): List<EatingLog>
+    suspend fun getLogByFilter(startTime: Long, endTime: Long): MutableList<EatingLog>
 
 
 }
