@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".DatabaseActivity"> </activity>
         <activity android:name=".AddDataActivity"> </activity>
+        <activity android:name=".UpdateDataActivity"> </activity>
     </application>
 
 </manifest>

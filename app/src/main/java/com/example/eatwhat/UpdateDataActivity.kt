@@ -1,5 +1,4 @@
 package com.example.eatwhat
-
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -13,36 +12,35 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.eatwhat.data.DataParam
 import com.example.eatwhat.data.DataUtil
 import com.example.eatwhat.data.Restaurant
-import kotlinx.android.synthetic.main.activity_add_data.*
-import kotlinx.android.synthetic.main.activity_add_data.EditText_add_restaurant_name
-import kotlinx.android.synthetic.main.activity_add_data.EditText_add_restaurant_score
-import kotlinx.android.synthetic.main.activity_add_data.Spinner_restaurant_frequency
-import kotlinx.android.synthetic.main.activity_add_data.Spinner_restaurant_label
-import kotlinx.android.synthetic.main.activity_add_data.button_return
-import kotlinx.android.synthetic.main.activity_add_data.button_set
-import kotlinx.android.synthetic.main.activity_database.*
 import kotlinx.android.synthetic.main.activity_update_data.*
 import java.lang.Exception
 
-class AddDataActivity: AppCompatActivity() {
+class UpdateDataActivity : AppCompatActivity() {
     var restEntity: Restaurant = Restaurant()
-    private val tag = "AddDataActivity"
+    var originalRest:Restaurant = Restaurant()
+    private val tag = "UpdateDataActivity"
     private val context = this
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_data) // 列表布局
+        setContentView(R.layout.activity_update_data) // 列表布局
         // setSupportActionBar(findViewById(R.id.toolbar))
-        Log.i(tag,"Add Data Activity")
+        Log.i(tag,"Update Data Activity")
+        restEntity = (intent.getSerializableExtra("rest") as Restaurant?)!!
+        originalRest = restEntity
+
 
         adaptSpinner(Spinner_restaurant_frequency,true)
         adaptSpinner(Spinner_restaurant_label,false)
+        // set UpdateName
+        setHint(restEntity)
+
 
 
         button_set.setOnClickListener {
-            val restName:String = EditText_add_restaurant_name.text.toString()
-            val restScoreString:String = EditText_add_restaurant_score.text.toString()
+            val restName:String = EditText_restaurant_name.text.toString()
+            val restScoreString:String = EditText_restaurant_score.text.toString()
             var restScore = 0.0F
             var add2Database = true
             try{
@@ -57,18 +55,19 @@ class AddDataActivity: AppCompatActivity() {
                 restEntity.score = restScore
                 // 检查是否未输入
                 if(checkEmpty()){
-                    DataUtil.saveRest(restEntity,object: DataUtil.DataCallback {
+                    DataUtil.updateRest(restEntity,object: DataUtil.DataCallback {
                         override fun success() {
-                            Log.i("Database", "添加成功：" + restEntity.name)
+                            Log.i("Database", "更新成功：" + restEntity.name)
                             val msg = Message()
-                            msg.what = DataParam.ADD_SUCCESS
+                            msg.what = DataParam.UPDATE_SUCCESS
                             mHandler.sendMessage(msg)
                         }
 
                         override fun error(e: Exception) {
-                            Log.e("Database",e.toString()+"_添加错误")
+                            // 根据错误代码提示输入
+                            Log.e("Database",e.toString()+"_更新错误")
                             val msg = Message()
-                            msg.what = DataParam.ADD_ERROR
+                            msg.what = DataParam.UPDATE_ERROR
                             mHandler.sendMessage(msg)
                         }
                     })
@@ -85,15 +84,17 @@ class AddDataActivity: AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what){
-                DataParam.ADD_SUCCESS -> {
-                    Toast.makeText(context, "添加成功！", Toast.LENGTH_SHORT).show()
+                DataParam.UPDATE_SUCCESS -> {
+                    Toast.makeText(context, "修改成功！", Toast.LENGTH_SHORT).show()
                     // 清空restEntity,恢复默认值
                     restEntity.setEmpty()
 
                     //清空输入框,恢复默认值
                     setHint(restEntity)
                 }
-                DataParam.ADD_ERROR -> { Toast.makeText(context,"出现错误", Toast.LENGTH_SHORT).show()}
+                DataParam.UPDATE_ERROR -> {
+                    restEntity = originalRest
+                    Toast.makeText(context,"出现错误", Toast.LENGTH_SHORT).show()}
                 else -> {
                     Log.e("Database","未识别信号${msg.what}")}
             }
@@ -101,8 +102,8 @@ class AddDataActivity: AppCompatActivity() {
     }
 
     private fun setHint(restaurant: Restaurant){
-        EditText_add_restaurant_name.text = if (restaurant.name == "")  null else Editable.Factory.getInstance().newEditable(restaurant.name)
-        EditText_add_restaurant_score.text = if (restaurant.score == -1.0F)  null else Editable.Factory.getInstance().newEditable(
+        EditText_restaurant_name.text = if (restaurant.name == "")  null else Editable.Factory.getInstance().newEditable(restaurant.name)
+        EditText_restaurant_score.text = if (restaurant.score == -1.0F)  null else Editable.Factory.getInstance().newEditable(
             restaurant.score.toString()
         )
         // find position in the array

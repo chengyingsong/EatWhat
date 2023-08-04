@@ -56,7 +56,10 @@ class DatabaseActivity: AppCompatActivity() {
             }
             override fun onUpdateButtonClicked(view: View, position: Int) {
                 // 更新 --> 转入更新界面
-
+                val rest = restaurantList[position]
+                Log.i(tag,"Update ${rest.name}")
+                // startActivity(Intent(context,UpdateDataActivity::class.java))
+                startActivity(Intent(context,UpdateDataActivity::class.java).apply { putExtra("rest",rest) })
                 // adapter.notifyItemChanged(position)
             }
         })

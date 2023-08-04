@@ -60,9 +60,9 @@ class FirstFragment : Fragment() {
 
         }
 
-        button_add_restaurant.setOnClickListener{
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+//        button_add_restaurant.setOnClickListener{
+//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+//        }
     }
 
     private val mHandler = object : Handler(Looper.getMainLooper()){

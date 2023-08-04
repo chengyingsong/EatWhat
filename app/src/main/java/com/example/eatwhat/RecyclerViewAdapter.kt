@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eatwhat.data.Restaurant
 
@@ -44,7 +45,7 @@ class RecyclerViewAdapter(private var mItems:MutableList<Restaurant>) : Recycler
             // mImgRecyItem.setImageResource(R.drawable.rose)
             mRestNameText.text = rest.name
             mScoreText.text = "分数:${rest.score}"
-            mLabelText.text = rest.label
+            mLabelText.text = itemView.resources.getStringArray(R.array.labelArray)[rest.label]
         }
 
     }

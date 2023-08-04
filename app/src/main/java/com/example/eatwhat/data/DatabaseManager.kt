@@ -16,6 +16,7 @@ object DatabaseManager {
             .addCallback(CreateCallBack)
             .addMigrations(*MIGRATIONS)
             .createFromAsset("database/APPData.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 
@@ -32,9 +33,14 @@ object DatabaseManager {
         }
     }
 
+    //TODO: 数据库升级 修改列数据类型
     private object Migration1: Migration(1,2){
         override fun migrate(database: SupportSQLiteDatabase) {
             // 数据库升级
+            database.execSQL("drop table Restaurants")
+            database.execSQL(
+                "create table Restaurants('name' TEXT NOT NULL, 'score' REAL NOT NULL, " +
+                        "'frequency' INTEGER NOT NULL, 'label' INTEGER NOT NULL, PRIMARY KEY('name'))")
         }
     }
 

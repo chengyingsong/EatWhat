@@ -20,5 +20,6 @@
     <string name="Update">更新</string>
 
     <string name = "database_setting"> 数据库设置 </string>
-    <string name="add_restaurant">添加餐厅</string>
+    <string name="add_restaurant">添加餐厅信息</string>
+    <string name = "update_restaurant">更新餐厅信息</string>
 </resources>
